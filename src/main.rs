@@ -42,7 +42,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     event_loop.run(move |event, elwt| {
         // Run continuously
-        elwt.set_control_flow(ControlFlow::Poll);
+        elwt.set_control_flow(ControlFlow::WaitUntil(Instant::now() + std::time::Duration::from_secs_f64(TIME_STEP)));
 
         match event {
             Event::WindowEvent { event, .. } => match event {
