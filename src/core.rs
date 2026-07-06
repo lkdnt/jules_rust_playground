@@ -27,17 +27,33 @@ impl EngineState {
             world.renderables[player].color = [255, 0, 0, 255]; // Red square
         }
 
+        let mut input = InputState::new();
+
+        // Setup default keybindings
+        use winit::keyboard::KeyCode;
+        input.bind_key(KeyCode::ArrowUp, KEY_UP);
+        input.bind_key(KeyCode::KeyW, KEY_UP);
+
+        input.bind_key(KeyCode::ArrowDown, KEY_DOWN);
+        input.bind_key(KeyCode::KeyS, KEY_DOWN);
+
+        input.bind_key(KeyCode::ArrowLeft, KEY_LEFT);
+        input.bind_key(KeyCode::KeyA, KEY_LEFT);
+
+        input.bind_key(KeyCode::ArrowRight, KEY_RIGHT);
+        input.bind_key(KeyCode::KeyD, KEY_RIGHT);
+
+        input.bind_key(KeyCode::Space, crate::input::KEY_ACTION);
+        input.bind_key(KeyCode::Enter, crate::input::KEY_ACTION);
+
         Self {
             world,
-            input: InputState::new(),
+            input,
         }
     }
 
     /// Fixed time step update.
     pub fn update(&mut self) {
-        // Prepare input state for this tick
-        self.input.update();
-
         // 1. Process Input (Player control)
         let player_mask = COMPONENT_PLAYER | COMPONENT_VELOCITY;
         let speed = 100.0 * crate::types::TIME_STEP as f32; // Pixels per second scaled by fixed time step
@@ -68,5 +84,8 @@ impl EngineState {
                 self.world.transforms[i].position.y += vel.y;
             }
         }
+
+        // Prepare input state for the next tick
+        self.input.update();
     }
 }
