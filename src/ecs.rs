@@ -60,10 +60,7 @@ impl World {
     /// Finds the first dead entity (signature == 0) and reuses it.
     /// Returns the entity index, or None if the world is full.
     pub fn create_entity(&mut self) -> Option<usize> {
-        let entity = self.signatures.iter().position(|&sig| sig == 0)?;
-        // Reserve the slot so subsequent calls won't return the same index until it's destroyed.
-        self.signatures[entity] = 1 << 31;
-        Some(entity)
+        self.signatures.iter().position(|&sig| sig == 0)
     }
 
     /// Destroys an entity by simply clearing its signature.

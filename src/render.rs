@@ -40,7 +40,7 @@ pub fn draw_world(frame: &mut [u8], world: &World) {
 /// Fast and simple block drawing.
 fn draw_rect(frame: &mut [u8], x: i32, y: i32, w: i32, h: i32, color: [u8; 4]) {
     // Early exit for out of bounds
-    if w <= 0 || h <= 0 || x >= WIDTH as i32 || y >= HEIGHT as i32 || x + w <= 0 || y + h <= 0 {
+    if x >= WIDTH as i32 || y >= HEIGHT as i32 || x + w <= 0 || y + h <= 0 {
         return;
     }
 
